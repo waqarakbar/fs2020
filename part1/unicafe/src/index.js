@@ -57,12 +57,12 @@ const Statistics = (props) => {
   if(total > 0){
     return (
       <div>
-        <p>Good {good}</p>
-        <p>Neutral {neutral}</p>
-        <p>Bad {bad}</p>
-        <p>All {total}</p>
-        <p>Average {avgScore}</p>
-        <p>Positive {positive} %</p>
+        <Statistic text='Good' value={good} />
+        <Statistic text='Neutral' value={neutral} />
+        <Statistic text='Bad' value={bad} />
+        <Statistic text='All' value={total} />
+        <Statistic text='Average' value={avgScore} />
+        <Statistic text='Positive' value={positive} />
       </div>
     )
   }else{
@@ -71,8 +71,15 @@ const Statistics = (props) => {
         <p>No feedback given</p>
       </div>
     )
-  }
-  
+  } 
+}
+
+const Statistic = (props) => {
+  return (
+    <div>
+      <p>{props.text} {props.value}</p>
+    </div>
+  )
 }
 
 ReactDOM.render(<App />, 
