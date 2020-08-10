@@ -40,11 +40,25 @@ const Button = ({clickEvent, text}) => {
 }
 
 const DisplayStatistics = ({good, neutral, bad}) => {
+  let total = good+neutral+bad
+  
+  // the positive percentage
+  let positive = 0
+  if(good !== 0){
+    positive = good*100/total
+  }
+
+  // average score
+  let avgScore = ((good*1)+(neutral*0)+(bad*-1))/total
+
   return (
     <div>
       <p>Good {good}</p>
       <p>Neutral {neutral}</p>
       <p>Bad {bad}</p>
+      <p>All {total}</p>
+      <p>Average {avgScore}</p>
+      <p>Positive {positive} %</p>
     </div>
   )
 }
