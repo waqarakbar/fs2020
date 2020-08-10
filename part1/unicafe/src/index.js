@@ -27,7 +27,7 @@ const App = () => {
       <Button clickEvent={badClick} text='bad' />
 
       <h2>Statistics</h2>
-      <DisplayStatistics good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
@@ -39,7 +39,10 @@ const Button = ({clickEvent, text}) => {
   )
 }
 
-const DisplayStatistics = ({good, neutral, bad}) => {
+const Statistics = (props) => {
+
+  const {good, neutral, bad} = props
+
   let total = good+neutral+bad
   
   // the positive percentage
@@ -51,16 +54,25 @@ const DisplayStatistics = ({good, neutral, bad}) => {
   // average score
   let avgScore = ((good*1)+(neutral*0)+(bad*-1))/total
 
-  return (
-    <div>
-      <p>Good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
-      <p>All {total}</p>
-      <p>Average {avgScore}</p>
-      <p>Positive {positive} %</p>
-    </div>
-  )
+  if(total > 0){
+    return (
+      <div>
+        <p>Good {good}</p>
+        <p>Neutral {neutral}</p>
+        <p>Bad {bad}</p>
+        <p>All {total}</p>
+        <p>Average {avgScore}</p>
+        <p>Positive {positive} %</p>
+      </div>
+    )
+  }else{
+    return (
+      <div>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+  
 }
 
 ReactDOM.render(<App />, 
