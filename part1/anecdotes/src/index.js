@@ -23,12 +23,19 @@ const App = (props) => {
   // console.log(selected)
   // console.log(votes)
 
+  const votesCopy = {...votes}
+  const maxVotesKey = Object.keys(votesCopy).reduce(function(a, b){ return votesCopy[a] > votesCopy[b] ? a : b });
+  // console.log('max votes key', maxVotesKey)
+
   return (
     <div>
       {props.anecdotes[selected]}
       <p>has {votes[selected]} votes</p>
       <Button text="Next Annecdote" clickHandle={nextAnnecdote} />
       <Button text="Vote" clickHandle={voteAnnecdote} />
+      <h2>Annecdote with highest votes</h2>
+      {props.anecdotes[maxVotesKey]}
+      <p>has {votes[maxVotesKey]} votes</p>
     </div>
   )
 }
