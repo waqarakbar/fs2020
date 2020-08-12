@@ -10,7 +10,15 @@ const App = (props) => {
   })
 
   const nextAnnecdote = () => {
-    setSelected(Math.floor((Math.random() * 5) + 0))
+    setSelected(generateRandomNumber())
+  }
+
+  const generateRandomNumber = () => {
+    let randomKey = Math.floor((Math.random() * props.anecdotes.length) + 0)
+    while(randomKey === selected){
+      randomKey = Math.floor((Math.random() * props.anecdotes.length) + 0)
+    }
+    return randomKey
   }
 
   const voteAnnecdote = () => {
