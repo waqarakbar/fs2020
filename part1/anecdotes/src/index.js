@@ -48,8 +48,6 @@ const App = (props) => {
   )
 }
 
-
-
 const Button = ({text, clickHandle}) => {
   return (
     <div>
