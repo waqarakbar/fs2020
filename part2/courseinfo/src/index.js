@@ -30,11 +30,12 @@ const Content = ({parts}) => {
 }
 
 const Total = ({parts}) => {
+
+  const totalExercises = parts.reduce((s, p) => s+p.exercises, 0)
+  // console.log('tt', totalExercises)
   return (
     <div>
-      <p><strong>Total of {parts.reduce((total, part) => { 
-        return total + part.exercises
-      }, 0)} exercises</strong></p>
+      <p><strong>Total of {totalExercises} exercises</strong></p>
     </div>
   )
 }
