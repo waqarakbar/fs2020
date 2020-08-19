@@ -4,6 +4,7 @@ import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import personService from './services/persons'
 import Notification from './components/Notification'
+import NotificationError from './components/NotificationError'
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState(null)
+  const [messageError, setMessageError] = useState(null)
 
   const handleNameChange = (e) => {
     // console.log(e.target.value)
@@ -64,6 +66,12 @@ const App = () => {
             setMessage(null)
           }, 5000)
 
+        }).catch(error => {
+          setMessageError('This contact has already been deleted')
+          setTimeout(() => {
+            setMessageError(null)
+          }, 5000)
+          setPersons(persons.filter(p => p.id !== personExists.id))
         })
       }
     }else{
@@ -77,8 +85,8 @@ const App = () => {
         setPersons(persons.concat(newPerson))
 
         setMessage(`New contact of ${newPerson.name} has been saved`)
-          setTimeout(() => {
-            setMessage(null)
+        setTimeout(() => {
+          setMessage(null)
         }, 5000)
 
       })
@@ -96,8 +104,8 @@ const App = () => {
       .then(res => {
 
         setMessage(`${thisPerson.name} has been deleted`)
-          setTimeout(() => {
-            setMessage(null)
+        setTimeout(() => {
+          setMessage(null)
         }, 5000)
 
         setPersons(persons.filter(p => p.id !== id))
@@ -114,6 +122,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={message} />
+      <NotificationError message={messageError} />
       <Filter search={search} handleSearchChange={handleSearchChange}/>
       
       <h2>Add a new</h2>
