@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-import axios from 'axios'
 import personService from './services/persons'
-
-import Person from './components/Person'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -14,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [message, setMessage] = useState(null)
 
   const handleNameChange = (e) => {
     // console.log(e.target.value)
@@ -59,6 +58,12 @@ const App = () => {
           setPersons(persons.map(p => p.id === personExists.id ? res : p))
           setNewName('')
           setNewNumber('')
+          
+          setMessage(`Contact number of ${res.name} has been updated to ${res.number}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+
         })
       }
     }else{
@@ -70,6 +75,12 @@ const App = () => {
       .create(newPersonObj)
       .then(newPerson => {
         setPersons(persons.concat(newPerson))
+
+        setMessage(`New contact of ${newPerson.name} has been saved`)
+          setTimeout(() => {
+            setMessage(null)
+        }, 5000)
+
       })
     }
     setNewName('')
@@ -83,6 +94,12 @@ const App = () => {
       personService
       .deletePerson(id)
       .then(res => {
+
+        setMessage(`${thisPerson.name} has been deleted`)
+          setTimeout(() => {
+            setMessage(null)
+        }, 5000)
+
         setPersons(persons.filter(p => p.id !== id))
       })
     }
@@ -96,6 +113,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter search={search} handleSearchChange={handleSearchChange}/>
       
       <h2>Add a new</h2>
