@@ -5,6 +5,8 @@ import Filter from './components/Filter'
 import axios from 'axios'
 import personService from './services/persons'
 
+import Person from './components/Person'
+
 
 const App = () => {
   
@@ -28,7 +30,7 @@ const App = () => {
     setSearch(e.target.value)
   }
 
-  
+
   useEffect(() => {
     console.log('effect')
     personService
@@ -67,6 +69,21 @@ const App = () => {
     }
     
   }
+
+  const deletePerson = (id) => {
+    const thisPerson = persons.find(p => p.id === id)
+    // console.log(thisPerson)
+    
+    if(window.confirm(`Delete ${thisPerson.name}?`)){
+      personService
+      .deletePerson(id)
+      .then(res => {
+        setPersons(persons.filter(p => p.id !== id))
+      })
+    }
+
+    
+	}
   
   // console.log(persons)
   const filteredPersons = (search.length > 0) ? persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase())) : persons
@@ -80,7 +97,8 @@ const App = () => {
       <PersonForm handleSubmit={handleSubmit} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
 
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} deletePerson={deletePerson} />
+
     </div>
   )
 }

@@ -1,29 +1,14 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
+      "name": "Ali Khan",
+      "number": "03451231234",
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "name": "Gulab Khan",
+      "number": "03219789876",
       "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Waqar Akbar",
-      "number": "03459153835",
-      "id": 5
     }
   ]
 }
