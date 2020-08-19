@@ -3,26 +3,15 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import axios from 'axios'
+import personService from './services/persons'
 
 
 const App = () => {
+  
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
-
-  useEffect(() => {
-    console.log('effect')
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('promis fulfilled')
-      setPersons(response.data)
-    })
-  }, [])
-
-  console.log(persons);
-  
 
   const handleNameChange = (e) => {
     // console.log(e.target.value)
@@ -39,11 +28,24 @@ const App = () => {
     setSearch(e.target.value)
   }
 
+  
+  useEffect(() => {
+    console.log('effect')
+    personService
+    .getAll()
+    .then(initialPersons => {
+      // console.log('promis fulfilled')
+      setPersons(initialPersons)
+    })
+  }, [])
+
+  // console.log(persons);
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
     // check if the newName already exist
-    const personExists = persons.filter(person => person.name === newName)
+    const personExists = persons.filter(person => person.name.toLowerCase() === newName.toLowerCase())
     
     if(personExists.length > 0){
       alert(`${newName} is already added to phonebook`)
@@ -52,10 +54,16 @@ const App = () => {
         name: newName,
         number: newNumber
       }
+
+      personService
+      .create(newPersonObj)
+      .then(newPerson => {
+        setPersons(persons.concat(newPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   
-      setPersons(persons.concat(newPersonObj))
-      setNewName('')
-      setNewNumber('')
+      
     }
     
   }
