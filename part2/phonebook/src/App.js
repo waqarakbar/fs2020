@@ -32,7 +32,7 @@ const App = () => {
 
 
   useEffect(() => {
-    console.log('effect')
+    // console.log('effect')
     personService
     .getAll()
     .then(initialPersons => {
@@ -45,35 +45,40 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
     // check if the newName already exist
-    const personExists = persons.filter(person => person.name.toLowerCase() === newName.toLowerCase())
-    
-    if(personExists.length > 0){
-      alert(`${newName} is already added to phonebook`)
+    const personExists_r = persons.filter(person => person.name.toLowerCase() === newName.toLowerCase())
+    if(personExists_r.length > 0){
+      const personExists = {...personExists_r[0]}
+      // console.log(personExists);
+      if(window.confirm(`${newName} is already added to phonebook, replace the older number with the new one?`)){
+        const updatedPersonObj = {...personExists, number:newNumber}
+        // console.log('updated', updatedPersonObj);
+        personService
+        .update(personExists.id, updatedPersonObj)
+        .then(res => {
+          setPersons(persons.map(p => p.id === personExists.id ? res : p))
+          setNewName('')
+          setNewNumber('')
+        })
+      }
     }else{
       const newPersonObj = {
         name: newName,
         number: newNumber
       }
-
       personService
       .create(newPersonObj)
       .then(newPerson => {
         setPersons(persons.concat(newPerson))
-        setNewName('')
-        setNewNumber('')
       })
-  
-      
     }
-    
+    setNewName('')
+    setNewNumber('')
   }
 
   const deletePerson = (id) => {
     const thisPerson = persons.find(p => p.id === id)
     // console.log(thisPerson)
-    
     if(window.confirm(`Delete ${thisPerson.name}?`)){
       personService
       .deletePerson(id)
